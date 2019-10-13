@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: install nginx
+    apt:
+     pkg: nginx
+     state: present
+    notify:
+     - run update
+  - name: install vim
+    apt:
+      pkg: vim
+      state: present
+  - name: start nginx service
+    service:
+      name: nginx
+      state: started
+      enabled: true
+  handlers:
+  - name: run update
+    apt:
+     update_cache: yes
